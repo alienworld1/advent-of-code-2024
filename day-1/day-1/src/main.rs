@@ -11,20 +11,45 @@ fn main() {
     list2.sort();
 
     let mut total_sum = 0;
-
+    
     for i in 0..list1.len() {
         let difference;
-
+        
         if list1[i] > list2[i] {
             difference = list1[i] - list2[i];
         } else {
             difference = list2[i] - list1[i];
         }
-
+        
         total_sum += difference;
     }
+    
+    println!("Total difference: {}", total_sum);
+    
+    let mut similarity_score = 0;
 
-    println!("Total sum: {}", total_sum);
+    for i in 0..list1.len() {
+        let mut j = 0;
+        let mut num_count_in_list2 = 0;
+        let mut num_is_present = false;
+
+        while j < list2.len() {
+            if list1[i] == list2[j] {
+                num_count_in_list2 += 1;
+                num_is_present = true;
+            } else {
+                if num_is_present {
+                    break;
+                }
+            }
+            j += 1;
+        }
+
+        similarity_score += list1[i] * num_count_in_list2;
+    }
+
+    println!("Similarity score: {}", similarity_score);
+
 }
 
 fn get_lists(filename: &str) -> io::Result<(Vec<u32>, Vec<u32>)> {
